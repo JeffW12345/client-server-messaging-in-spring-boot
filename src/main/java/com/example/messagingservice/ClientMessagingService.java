@@ -37,7 +37,7 @@ public class ClientMessagingService {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, new URI("ws://localhost:8080/webSocket"));
 
-            this.sendMessage("\nHello, Server, from Client " + clientNumber);
+            this.sendMessage("Hello, Server, from Client " + clientNumber);
 
         } catch (Exception e) {
             log.error(e.getMessage());

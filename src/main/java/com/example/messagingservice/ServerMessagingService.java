@@ -20,7 +20,7 @@ public class ServerMessagingService {
     private final static Set<Session> SESSIONS = new CopyOnWriteArraySet<>();
 
     @OnOpen
-    public void onOpen(Session session) {
+    public synchronized void onOpen(Session session) {
         SESSIONS.add(session);
         log.info(String.format("New server session. Number of sessions: %s", SESSIONS.size()));
     }
@@ -32,12 +32,12 @@ public class ServerMessagingService {
         sendReplyToAllClients("Hi, Client " + clientNumber);
     }
     @OnClose
-    public void onClose(Session session) {
+    public synchronized void onClose(Session session) {
         SESSIONS.remove(session);
-        log.warn(String.format("Session disconnected. Total connected listeners: %s", SESSIONS.size()));
+        log.warn(String.format("Session disconnected. Total connected sessions: %s", SESSIONS.size()));
     }
     @OnError
-    public void onError(Session session, Throwable throwable) {
+    public synchronized void onError(Session session, Throwable throwable) {
         log.error(throwable.getMessage());
     }
 
